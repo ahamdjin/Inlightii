@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import App from './App'
 import BlogPage from './BlogPage'
 import ContactPage from './ContactPage'
+import MobileMenu from './MobileMenu'
 import './styles.css'
 import './pages.css'
 import './hero-fix.css'
@@ -35,5 +36,6 @@ function Router() {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Router />
+    <MobileMenu />
   </StrictMode>,
 )
