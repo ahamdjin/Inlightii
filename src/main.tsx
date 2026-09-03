@@ -5,6 +5,7 @@ import BlogPage from './BlogPage'
 import ContactPage from './ContactPage'
 import './styles.css'
 import './pages.css'
+import './hero-fix.css'
 
 function HomePage() {
   useEffect(() => {
