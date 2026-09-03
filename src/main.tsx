@@ -1,4 +1,4 @@
-import { StrictMode } from 'react'
+import { StrictMode, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import BlogPage from './BlogPage'
@@ -9,12 +9,25 @@ import './hero-fix.css'
 import './difference-enhancement.css'
 import './difference-expand.css'
 
+function ChineseHomePage() {
+  useEffect(() => {
+    const journal = document.querySelector<HTMLAnchorElement>('.nav__links a[href="/blog"]')
+    const contact = document.querySelector<HTMLAnchorElement>('.nav__contact')
+    if (journal) journal.href = '/zh/blog'
+    if (contact) contact.href = '/zh/contact'
+  }, [])
+
+  return <App language="zh" />
+}
+
 function Router() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
 
   if (path === '/blog') return <BlogPage />
   if (path === '/contact') return <ContactPage />
-  if (path === '/zh') return <App language="zh" />
+  if (path === '/zh/blog') return <BlogPage language="zh" />
+  if (path === '/zh/contact') return <ContactPage language="zh" />
+  if (path === '/zh') return <ChineseHomePage />
   return <App />
 }
 
