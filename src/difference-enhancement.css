@@ -33,7 +33,10 @@
 .difference:has(.difference-item:nth-child(4):hover),
 .difference:has(.difference-item:nth-child(4):focus-visible) { --difference-light-y: 83%; }
 
-.difference > * {
+.difference > .section-label,
+.difference > .difference__head,
+.difference > .difference__layout,
+.difference > .difference__mobile-visual {
   position: relative;
   z-index: 1;
 }
@@ -82,6 +85,7 @@
 }
 
 .difference__float {
+  z-index: 8;
   width: clamp(300px, 27vw, 410px);
   height: clamp(205px, 18.5vw, 280px);
   background: transparent;
