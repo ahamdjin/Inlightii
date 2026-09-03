@@ -1,0 +1,160 @@
+.difference {
+  --difference-light-y: 45%;
+}
+
+.difference::before {
+  content: '';
+  position: absolute;
+  z-index: 0;
+  width: 54vw;
+  height: 54vw;
+  right: -20vw;
+  top: var(--difference-light-y);
+  transform: translateY(-50%);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle, rgba(193, 151, 89, .11) 0%, rgba(193, 151, 89, .055) 28%, rgba(193, 151, 89, 0) 68%);
+  filter: blur(18px);
+  transition: top .75s cubic-bezier(.22,1,.36,1), opacity .45s ease;
+}
+
+.difference:has(.difference-item:hover)::before,
+.difference:has(.difference-item:focus-visible)::before {
+  opacity: 1;
+}
+
+.difference:has(.difference-item:nth-child(1):hover),
+.difference:has(.difference-item:nth-child(1):focus-visible) { --difference-light-y: 50%; }
+.difference:has(.difference-item:nth-child(2):hover),
+.difference:has(.difference-item:nth-child(2):focus-visible) { --difference-light-y: 61%; }
+.difference:has(.difference-item:nth-child(3):hover),
+.difference:has(.difference-item:nth-child(3):focus-visible) { --difference-light-y: 72%; }
+.difference:has(.difference-item:nth-child(4):hover),
+.difference:has(.difference-item:nth-child(4):focus-visible) { --difference-light-y: 83%; }
+
+.difference > * {
+  position: relative;
+  z-index: 1;
+}
+
+.difference__list {
+  overflow: visible;
+}
+
+.difference:has(.difference-item:hover) .difference-item {
+  opacity: .26;
+}
+
+.difference:has(.difference-item:hover) .difference-item:hover,
+.difference:has(.difference-item:focus-visible) .difference-item:focus-visible {
+  opacity: 1;
+}
+
+.difference-item {
+  transition: opacity .38s ease, padding .55s cubic-bezier(.22,1,.36,1), background .45s ease;
+}
+
+.difference-item:hover,
+.difference-item:focus-visible {
+  padding-left: 5px;
+  background: linear-gradient(90deg, rgba(255,255,255,.18), rgba(255,255,255,0) 58%);
+}
+
+.difference-item__number {
+  transition: color .4s ease, transform .5s cubic-bezier(.22,1,.36,1);
+}
+
+.difference-item:hover .difference-item__number,
+.difference-item:focus-visible .difference-item__number {
+  color: #9a6d36;
+  transform: translateY(-2px);
+}
+
+.difference-item__text strong {
+  transition: transform .5s cubic-bezier(.22,1,.36,1), letter-spacing .45s ease;
+}
+
+.difference-item:hover .difference-item__text strong,
+.difference-item:focus-visible .difference-item__text strong {
+  transform: translateX(3px);
+  letter-spacing: -.018em;
+}
+
+.difference__float {
+  width: clamp(300px, 27vw, 410px);
+  height: clamp(205px, 18.5vw, 280px);
+  background: transparent;
+  box-shadow: none;
+  border: 1px solid rgba(23,23,21,.12);
+  overflow: hidden;
+}
+
+.difference__float img {
+  opacity: 0;
+}
+
+.difference__float::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  animation: difference-photo-in .52s cubic-bezier(.22,1,.36,1) both;
+  will-change: transform, filter, opacity;
+}
+
+/* Free Unsplash images mixed with INLIGHT's generated process imagery. */
+.difference:has(.difference-item:nth-child(1):hover) .difference__float::before,
+.difference:has(.difference-item:nth-child(1):focus-visible) .difference__float::before {
+  background-image: url('https://images.unsplash.com/photo-1555475384-6cc5c348e848?auto=format&fit=crop&w=1400&q=88');
+  background-position: center 46%;
+}
+
+.difference:has(.difference-item:nth-child(2):hover) .difference__float::before,
+.difference:has(.difference-item:nth-child(2):focus-visible) .difference__float::before {
+  background-image: url('/images/home/ChatGPT%20Image%20Sept%203%202026%20(5).webp');
+}
+
+.difference:has(.difference-item:nth-child(3):hover) .difference__float::before,
+.difference:has(.difference-item:nth-child(3):focus-visible) .difference__float::before {
+  background-image: url('https://images.unsplash.com/photo-1767707122704-0147d94c1bb7?auto=format&fit=crop&w=1600&q=88');
+  background-position: center 52%;
+}
+
+.difference:has(.difference-item:nth-child(4):hover) .difference__float::before,
+.difference:has(.difference-item:nth-child(4):focus-visible) .difference__float::before {
+  background-image: url('/images/home/ChatGPT%20Image%20Sept%203%202026%20(3).webp');
+}
+
+.difference__float span {
+  z-index: 2;
+  left: 14px;
+  bottom: 12px;
+  padding: 7px 9px;
+  background: rgba(245,242,234,.84);
+  box-shadow: 0 1px 0 rgba(255,255,255,.45) inset;
+}
+
+@keyframes difference-photo-in {
+  0% { opacity: 0; filter: blur(10px) brightness(.92); transform: scale(1.045); }
+  45% { opacity: .74; filter: blur(3px) brightness(.96); }
+  100% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1); }
+}
+
+@media (max-width: 900px) {
+  .difference::before { display: none; }
+  .difference:has(.difference-item:hover) .difference-item { opacity: .5; }
+  .difference:has(.difference-item:hover) .difference-item:hover { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .difference::before,
+  .difference__float::before,
+  .difference-item,
+  .difference-item__number,
+  .difference-item__text strong {
+    transition: none !important;
+    animation: none !important;
+  }
+}
