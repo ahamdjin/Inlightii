@@ -1,0 +1,333 @@
+/* Mobile composition pass — keeps desktop untouched. */
+
+@media (max-width: 900px) {
+  .shell,
+  .page-shell {
+    padding-left: clamp(20px, 5.5vw, 28px);
+    padding-right: clamp(20px, 5.5vw, 28px);
+  }
+
+  /* Homepage navigation: brand + language + contact. */
+  .nav {
+    height: 70px;
+    grid-template-columns: 1fr auto auto;
+    gap: 18px;
+    padding-left: clamp(20px, 5.5vw, 28px);
+    padding-right: clamp(20px, 5.5vw, 28px);
+  }
+  .nav__links {
+    display: flex !important;
+    gap: 0;
+  }
+  .nav__links a { display: none; }
+  .nav__links a:last-child {
+    display: block;
+    font-size: 10px;
+    letter-spacing: .04em;
+  }
+  .nav__contact {
+    font-size: 10px;
+    gap: 6px;
+  }
+
+  /* Hero: less restless, more intentional crop. */
+  .hero,
+  .hero__copy {
+    min-height: 640px;
+  }
+  .hero__image img {
+    object-position: 50% 50% !important;
+  }
+  .hero__shade {
+    background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.10) 44%, rgba(0,0,0,.46));
+  }
+
+  /* About: the image reads as a photograph, not a tall viewport filler. */
+  .intro {
+    padding-top: 100px;
+    padding-bottom: 92px;
+  }
+  .intro__experience {
+    padding-top: 64px;
+    gap: 54px;
+  }
+  .intro__lens-stage {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+  .intro__lens-base,
+  .intro__lens-overlay img {
+    object-position: center center;
+  }
+
+  /* Difference: compact entry, generous reveal. */
+  .difference {
+    padding-top: 96px;
+    padding-bottom: 92px;
+  }
+  .difference__head {
+    margin-top: 52px;
+    padding-bottom: 8px;
+  }
+  .difference-expand { margin-top: 30px; }
+  .difference-row__visual {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+    margin-bottom: 24px;
+  }
+
+  /* Selected work: editorial frames, no arbitrary viewport-height crops. */
+  .work__intro {
+    min-height: 78svh;
+    padding-top: 96px;
+    padding-bottom: 82px;
+  }
+  .work__intro-copy {
+    margin-top: auto;
+    padding-top: 110px;
+    padding-bottom: 0;
+  }
+  .project {
+    min-height: auto;
+    padding-top: 54px;
+    padding-bottom: 54px;
+  }
+  .project__frame,
+  .project__frame--contained {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .project__frame img { object-position: center center; }
+  .project__caption {
+    margin-top: 13px;
+    padding-top: 13px;
+  }
+
+  /* Process: keep the visual in view while steps pass it. */
+  .process {
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+  .process__intro {
+    min-height: 62svh;
+  }
+  .process__intro > p { margin-bottom: 56px; }
+  .process__body {
+    display: block;
+  }
+  .process__sticky {
+    position: sticky;
+    z-index: 4;
+    top: 76px;
+    width: 100%;
+    height: min(42svh, 360px);
+    min-height: 260px;
+    background: var(--paper);
+  }
+  .process__image { box-shadow: 0 10px 32px rgba(23,23,21,.06); }
+  .process__image img { object-position: center center; }
+  .process__steps {
+    position: relative;
+    z-index: 5;
+    padding-top: 42px;
+  }
+  .process-step {
+    min-height: 42svh;
+    padding: 25px 0 52px;
+    background: linear-gradient(180deg, rgba(243,241,235,.97), rgba(243,241,235,.93));
+  }
+
+  /* Full-image standard stays immersive, but with a mobile focal crop. */
+  .standard { min-height: 92svh; }
+  .standard__copy { min-height: 92svh; }
+  .standard__image img { object-position: 54% center; }
+
+  .contact { min-height: 82svh; }
+
+  /* Blog + Contact top navigation stays useful without cramming four links. */
+  .page-nav {
+    position: fixed;
+    height: 70px;
+    z-index: 70;
+    color: #fff !important;
+    mix-blend-mode: difference;
+    padding-left: clamp(20px, 5.5vw, 28px);
+    padding-right: clamp(20px, 5.5vw, 28px);
+  }
+  .page-nav nav { gap: 17px; }
+  .page-nav nav a { display: none; }
+  .page-nav nav a:last-child { display: block; }
+  .blog-page .page-nav nav a:nth-child(3),
+  .contact-page .page-nav nav a:nth-child(2) {
+    display: block;
+  }
+
+  /* Contact imagery and form cadence. */
+  .contact-hero { min-height: 650px; }
+  .contact-hero__base img,
+  .contact-hero__lit img {
+    transform: none;
+    object-position: 54% center;
+  }
+  .contact-brief {
+    padding-top: 96px;
+    padding-bottom: 96px;
+  }
+  .contact-brief__intro { padding-bottom: 58px; }
+  .contact-brief__layout { padding-top: 58px; gap: 70px; }
+  .contact-aside__image {
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 4 / 3;
+  }
+  .contact-next {
+    padding-top: 84px;
+    padding-bottom: 84px;
+  }
+
+  /* Journal: article photography uses a consistent editorial ratio. */
+  .blog-hero {
+    min-height: 78svh;
+    padding-top: 104px;
+    padding-bottom: 30px;
+  }
+  .blog-feature {
+    padding-top: 76px;
+    padding-bottom: 88px;
+  }
+  .blog-feature__article {
+    padding-top: 54px;
+    gap: 48px;
+  }
+  .blog-feature__image,
+  .blog-card__image {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    aspect-ratio: 4 / 3;
+  }
+  .blog-index {
+    padding-top: 92px;
+    padding-bottom: 100px;
+  }
+  .blog-grid {
+    padding-top: 58px;
+    row-gap: 74px;
+  }
+  .blog-note {
+    min-height: 70svh;
+    padding-top: 82px;
+    padding-bottom: 82px;
+  }
+}
+
+@media (max-width: 620px) {
+  .brand strong,
+  .page-brand strong {
+    font-size: 13px;
+    letter-spacing: .16em;
+  }
+  .brand span,
+  .page-brand span { display: none; }
+
+  .nav { gap: 14px; }
+  .nav__contact .arrow { display: none; }
+
+  .hero {
+    height: 94svh;
+    min-height: 620px;
+  }
+  .hero__copy {
+    height: 94svh;
+    min-height: 620px;
+    padding: 88px 22px 32px;
+  }
+  .hero__copy h1 {
+    max-width: 330px !important;
+    margin-bottom: 18px !important;
+    font-size: clamp(34px, 10.4vw, 44px) !important;
+    line-height: 1.04 !important;
+  }
+  .hero__copy .eyebrow {
+    max-width: 290px;
+    line-height: 1.45;
+  }
+  .hero__footer p {
+    max-width: 300px;
+    font-size: 11.5px !important;
+    line-height: 1.6;
+  }
+
+  .section-label,
+  .page-index,
+  .page-kicker { letter-spacing: .11em; }
+
+  .intro h2 { font-size: 29px; line-height: 1.1; }
+  .intro__copy { gap: 30px; }
+  .intro__lens-caption { left: 12px; right: 12px; bottom: 11px; }
+  .intro__lens-caption span:last-child { display: none; }
+
+  .difference__head p { font-size: 24px; line-height: 1.15; }
+  .difference-row__trigger {
+    min-height: 84px;
+    grid-template-columns: 30px 1fr 26px;
+  }
+  .difference-row__trigger strong { font-size: 19px; line-height: 1.15; }
+  .difference-row__content { left: 17px; right: 17px; bottom: 16px; }
+
+  .work__intro h2 { font-size: 31px; }
+  .work__intro p { font-size: 12px; }
+  .project__caption h3 { font-size: 20px; }
+
+  .process__intro h2 { font-size: 35px; }
+  .process-step { min-height: 38svh; }
+  .process-step h3 { margin-top: 22px; font-size: 27px; }
+
+  .standard__statement { gap: 26px; }
+  .standard h2 { font-size: 36px; line-height: 1.04; }
+  .standard__statement > p { font-size: 12px; }
+
+  .contact__center a { font-size: 46px; }
+
+  .page-nav nav { gap: 15px; font-size: 10px; }
+  .contact-hero__content {
+    width: calc(100% - 40px);
+    padding-top: 44px;
+  }
+  .contact-hero__content h1 { font-size: 34px; line-height: 1.04; }
+  .contact-hero__content > p { font-size: 12px; line-height: 1.65; }
+  .contact-form { gap: 28px; }
+  .contact-close { min-height: 68svh; }
+
+  .blog-hero__center h1 { font-size: 33px; line-height: 1.08; }
+  .blog-hero__center p { margin-top: 20px; font-size: 12px; }
+  .blog-feature__copy h2 { font-size: 31px; }
+  .blog-feature__copy p { font-size: 12px; }
+  .blog-card h3 { font-size: 25px; }
+  .blog-note h2 { font-size: 32px; }
+
+  .page-footer {
+    min-height: 170px;
+    gap: 22px;
+  }
+}
+
+@media (max-width: 390px) {
+  .nav,
+  .page-nav {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .nav { gap: 11px; }
+  .nav__links a:last-child,
+  .nav__contact,
+  .page-nav nav { font-size: 9px; }
+  .page-nav nav { gap: 12px; }
+}
