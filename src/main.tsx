@@ -6,6 +6,7 @@ import ContactPage from './ContactPage'
 import './styles.css'
 import './pages.css'
 import './hero-fix.css'
+import './difference-enhancement.css'
 
 function HomePage() {
   useEffect(() => {
