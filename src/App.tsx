@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
@@ -17,43 +17,24 @@ const images = {
 }
 
 const differences = [
-  ['01', 'Quality over quantity'],
-  ['02', 'Global supply chain network'],
-  ['03', 'Extensive industry expertise'],
-  ['04', 'End-to-end manufacturing'],
+  { number: '01', title: 'Quality over quantity', note: 'A tighter standard for materials, finish and final execution.', image: images.detail },
+  { number: '02', title: 'Global supply chain', note: 'A manufacturing network built around capability, consistency and scale.', image: images.retail },
+  { number: '03', title: 'Industry expertise', note: 'Design and production knowledge shaped by complex hospitality and retail work.', image: images.edition },
+  { number: '04', title: 'End-to-end manufacturing', note: 'From development and prototyping through production and quality control.', image: images.object },
+]
+
+const projects = [
+  { title: 'The New York EDITION', type: 'Hospitality', image: images.edition },
+  { title: 'Pendry', type: 'Hospitality', image: images.pendry },
+  { title: 'Custom objects & details', type: 'Lighting + Décor', image: images.object },
 ]
 
 const process = [
-  {
-    number: '01',
-    title: 'Concept',
-    copy: 'A strong idea starts with proportion, material, mood and the way light should inhabit a space.',
-    image: images.object,
-  },
-  {
-    number: '02',
-    title: 'Engineering',
-    copy: 'Design intent is translated into a buildable object with precision, performance and repeatability in mind.',
-    image: images.detail,
-  },
-  {
-    number: '03',
-    title: 'Manufacturing',
-    copy: 'A global network and disciplined production process bring complex forms into physical reality.',
-    image: images.retail,
-  },
-  {
-    number: '04',
-    title: 'Refinement',
-    copy: 'Materials, finishes, detailing and quality control are treated as part of the design — not an afterthought.',
-    image: images.pendry,
-  },
-  {
-    number: '05',
-    title: 'Installation',
-    copy: 'The final object disappears into the architecture and the light becomes part of the atmosphere.',
-    image: images.edition,
-  },
+  { number: '01', title: 'Design & development', copy: 'Ideas are shaped around proportion, material, performance and the atmosphere the finished piece should create.', image: images.object },
+  { number: '02', title: 'Engineering', copy: 'Design intent becomes buildable through technical development, detailing and production-minded problem solving.', image: images.detail },
+  { number: '03', title: 'Prototyping', copy: 'Scale, finish and construction are tested in the real world before a concept moves into repeatable production.', image: images.retail },
+  { number: '04', title: 'Manufacturing', copy: 'A global supply network brings together the right processes, materials and specialists for each piece.', image: images.pendry },
+  { number: '05', title: 'Quality assurance', copy: 'The final standard is checked in the details — finish, consistency, performance and readiness for the space.', image: images.enclave },
 ]
 
 function Arrow() {
@@ -63,14 +44,10 @@ function Arrow() {
 function App() {
   const root = useRef<HTMLDivElement>(null)
   const processImageRef = useRef<HTMLImageElement>(null)
+  const [activeDifference, setActiveDifference] = useState(0)
 
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.05,
-      smoothWheel: true,
-      wheelMultiplier: 0.9,
-    })
-
+    const lenis = new Lenis({ duration: 1, smoothWheel: true, wheelMultiplier: 0.88 })
     lenis.on('scroll', ScrollTrigger.update)
     const update = (time: number) => lenis.raf(time * 1000)
     gsap.ticker.add(update)
@@ -82,280 +59,219 @@ function App() {
     }
   }, [])
 
-  useGSAP(
-    () => {
-      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      if (reduceMotion) return
+  useGSAP(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-      gsap.from('.hero__eyebrow, .hero__title-line, .hero__meta, .hero__scroll', {
+    gsap.from('.hero [data-hero]', {
+      opacity: 0,
+      y: 18,
+      duration: 1,
+      stagger: 0.08,
+      ease: 'power3.out',
+      delay: 0.1,
+    })
+
+    gsap.to('.hero__image img', {
+      yPercent: 8,
+      scale: 1.025,
+      ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1.4 },
+    })
+
+    gsap.to('.hero__copy', {
+      opacity: 0.35,
+      y: 24,
+      ease: 'none',
+      scrollTrigger: { trigger: '.hero', start: '55% top', end: 'bottom top', scrub: 1 },
+    })
+
+    gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((element) => {
+      gsap.from(element, {
         opacity: 0,
-        y: 24,
-        duration: 1.15,
-        stagger: 0.1,
+        y: 18,
+        duration: 0.9,
         ease: 'power3.out',
-        delay: 0.15,
+        scrollTrigger: { trigger: element, start: 'top 86%', once: true },
       })
+    })
 
-      gsap.to('.hero__media img', {
-        yPercent: 12,
-        scale: 1.04,
+    gsap.utils.toArray<HTMLElement>('[data-image-shift]').forEach((wrapper) => {
+      const image = wrapper.querySelector('img')
+      if (!image) return
+      gsap.fromTo(image, { scale: 1.035 }, {
+        scale: 1,
         ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.2,
+        scrollTrigger: { trigger: wrapper, start: 'top bottom', end: 'bottom top', scrub: 1.2 },
+      })
+    })
+
+    gsap.utils.toArray<HTMLElement>('.process-step').forEach((item, index) => {
+      ScrollTrigger.create({
+        trigger: item,
+        start: 'top 58%',
+        end: 'bottom 42%',
+        onEnter: () => changeProcessImage(index),
+        onEnterBack: () => changeProcessImage(index),
+        toggleClass: { targets: item, className: 'is-active' },
+      })
+    })
+
+    function changeProcessImage(index: number) {
+      const img = processImageRef.current
+      if (!img || img.dataset.index === String(index)) return
+      gsap.to(img, {
+        opacity: 0,
+        duration: 0.2,
+        ease: 'power2.out',
+        onComplete: () => {
+          img.src = process[index].image
+          img.dataset.index = String(index)
+          gsap.fromTo(img, { opacity: 0, scale: 1.018 }, { opacity: 1, scale: 1, duration: 0.6, ease: 'power3.out' })
         },
       })
+    }
 
-      gsap.to('.hero__content', {
-        yPercent: 18,
-        opacity: 0.15,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '.hero',
-          start: '35% top',
-          end: 'bottom top',
-          scrub: 1,
-        },
-      })
-
-      gsap.utils.toArray<HTMLElement>('[data-reveal]').forEach((element) => {
-        gsap.from(element, {
-          y: 46,
-          opacity: 0,
-          duration: 1.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: element,
-            start: 'top 84%',
-            once: true,
-          },
-        })
-      })
-
-      gsap.utils.toArray<HTMLElement>('.image-reveal').forEach((wrapper) => {
-        const image = wrapper.querySelector('img')
-        if (!image) return
-        gsap.fromTo(
-          image,
-          { scale: 1.09 },
-          {
-            scale: 1,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: wrapper,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: 1.4,
-            },
-          },
-        )
-      })
-
-      const processItems = gsap.utils.toArray<HTMLElement>('.process__step')
-      processItems.forEach((item, index) => {
-        ScrollTrigger.create({
-          trigger: item,
-          start: 'top 55%',
-          end: 'bottom 45%',
-          onEnter: () => changeProcessImage(index),
-          onEnterBack: () => changeProcessImage(index),
-          toggleClass: { targets: item, className: 'is-active' },
-        })
-      })
-
-      function changeProcessImage(index: number) {
-        const img = processImageRef.current
-        if (!img || img.dataset.index === String(index)) return
-        const next = process[index]
-
-        gsap.to(img, {
-          opacity: 0,
-          scale: 1.025,
-          duration: 0.28,
-          ease: 'power2.out',
-          onComplete: () => {
-            img.src = next.image
-            img.dataset.index = String(index)
-            gsap.fromTo(
-              img,
-              { opacity: 0, scale: 1.035 },
-              { opacity: 1, scale: 1, duration: 0.75, ease: 'power3.out' },
-            )
-          },
-        })
-      }
-
-      ScrollTrigger.refresh()
-    },
-    { scope: root },
-  )
+    ScrollTrigger.refresh()
+  }, { scope: root })
 
   return (
-    <div ref={root} className="site-shell">
+    <div className="site" ref={root}>
       <header className="nav">
         <a className="brand" href="#top" aria-label="INLIGHT International home">
-          <span>INLIGHT</span>
-          <small>International</small>
+          <strong>INLIGHT</strong><span>International</span>
         </a>
         <nav className="nav__links" aria-label="Primary navigation">
           <a href="#difference">Company</a>
-          <a href="#process">Capabilities</a>
           <a href="#work">Gallery</a>
+          <a href="#process">Capabilities</a>
         </nav>
-        <a className="nav__contact" href="mailto:info@inlightii.com">
-          Contact <Arrow />
-        </a>
+        <a className="nav__contact" href="mailto:info@inlightii.com">Contact <Arrow /></a>
       </header>
 
       <main>
         <section className="hero" id="top">
-          <div className="hero__media image-reveal">
-            <img src={images.hero} alt="Luxury hospitality interior illuminated by custom lighting" />
-            <div className="hero__veil" />
+          <div className="hero__image" data-image-shift>
+            <img src={images.hero} alt="Custom lighting in a refined hospitality interior" />
+            <div className="hero__shade" />
           </div>
-          <div className="hero__content page-pad">
-            <p className="hero__eyebrow">Design · Engineering · Manufacturing</p>
-            <h1 className="hero__title">
-              <span className="hero__title-line">Crafted to a</span>
-              <span className="hero__title-line hero__title-line--serif">higher standard.</span>
-            </h1>
-            <div className="hero__bottom">
-              <p className="hero__meta">Quality lighting and décor for spaces where every detail matters.</p>
-              <span className="hero__scroll">Scroll to discover <span>↓</span></span>
+          <div className="hero__copy shell">
+            <p className="eyebrow light" data-hero>Design · Engineering · Manufacturing</p>
+            <h1 data-hero>Crafted to a <em>higher standard.</em></h1>
+            <div className="hero__footer" data-hero>
+              <p>Quality lighting and décor for hospitality, retail and design-led spaces.</p>
+              <span>Scroll <span className="down">↓</span></span>
             </div>
           </div>
         </section>
 
-        <section className="statement section-screen page-pad">
-          <div className="statement__index" data-reveal>01 / Approach</div>
-          <div className="statement__body">
-            <p className="kicker" data-reveal>Beauty, backed by precision.</p>
-            <h2 data-reveal>
-              We shape ideas into objects — and objects into <em>atmosphere.</em>
-            </h2>
-            <p className="statement__copy" data-reveal>
-              INLIGHT brings design thinking, engineering discipline and global manufacturing together under one roof.
-            </p>
+        <section className="intro screen shell">
+          <div className="section-label" data-reveal><span>01</span><span>About INLIGHT</span></div>
+          <div className="intro__content">
+            <h2 data-reveal>We are part design studio, part engineering partner, part manufacturer.</h2>
+            <div className="intro__aside" data-reveal>
+              <p>That mix is the point.</p>
+              <p>It lets us protect an idea from the first conversation through the realities of production and the final space.</p>
+            </div>
           </div>
         </section>
 
-        <section className="difference section-screen page-pad" id="difference">
-          <div className="section-heading" data-reveal>
-            <span>02 / The difference</span>
-            <h2>Built differently.</h2>
-          </div>
-          <div className="difference__rows">
-            {differences.map(([number, title]) => (
-              <a className="difference-row" href="#process" key={number}>
-                <span className="difference-row__number">{number}</span>
-                <span className="difference-row__title">{title}</span>
-                <Arrow />
-              </a>
-            ))}
+        <section className="difference screen shell" id="difference">
+          <div className="section-label" data-reveal><span>02</span><span>How we are different</span></div>
+          <div className="difference__layout">
+            <div className="difference__list" data-reveal>
+              {differences.map((item, index) => (
+                <button
+                  className={`difference-item ${activeDifference === index ? 'is-active' : ''}`}
+                  key={item.number}
+                  onMouseEnter={() => setActiveDifference(index)}
+                  onFocus={() => setActiveDifference(index)}
+                  type="button"
+                >
+                  <span className="difference-item__number">{item.number}</span>
+                  <span className="difference-item__text">
+                    <strong>{item.title}</strong>
+                    <small>{item.note}</small>
+                  </span>
+                  <Arrow />
+                </button>
+              ))}
+            </div>
+            <div className="difference__visual" data-reveal>
+              <img src={differences[activeDifference].image} alt="INLIGHT capability detail" />
+              <span>{differences[activeDifference].title}</span>
+            </div>
           </div>
         </section>
 
         <section className="work" id="work">
-          <div className="work__intro section-screen page-pad">
-            <div data-reveal>
-              <span className="kicker">03 / Selected work</span>
-              <h2>Light, made architectural.</h2>
+          <div className="work__intro screen shell">
+            <div className="section-label light" data-reveal><span>03</span><span>Selected work</span></div>
+            <div className="work__intro-copy">
+              <h2 data-reveal>Sometimes the best thing we can do is let the work speak.</h2>
+              <p data-reveal>Custom lighting and décor developed to feel native to the spaces they inhabit.</p>
             </div>
-            <p data-reveal>
-              From statement pieces to the details that quietly complete a room, every object is designed to belong to its environment.
-            </p>
           </div>
 
-          <article className="project project--full">
-            <div className="project__image image-reveal">
-              <img src={images.edition} alt="The New York EDITION luxury interior" />
-            </div>
-            <div className="project__meta page-pad">
-              <div><span>Hospitality</span><h3>The New York EDITION</h3></div>
-              <a href="https://www.inlightii.com/gallery" target="_blank" rel="noreferrer">Explore gallery <Arrow /></a>
-            </div>
-          </article>
-
-          <article className="project project--split page-pad">
-            <div className="project__image project__image--portrait image-reveal">
-              <img src={images.object} alt="Decorative lighting object detail" />
-            </div>
-            <div className="project__copy" data-reveal>
-              <span className="kicker">Objects with presence</span>
-              <h3>Designed down to the quietest detail.</h3>
-              <p>Form, finish and material are considered together — so the fixture feels inevitable in the space around it.</p>
-              <a href="https://www.inlightii.com/gallery" target="_blank" rel="noreferrer">View lighting & décor <Arrow /></a>
-            </div>
-          </article>
+          {projects.map((project, index) => (
+            <article className="project screen shell" key={project.title}>
+              <div className={`project__frame ${index === 1 ? 'project__frame--contained' : ''}`} data-image-shift>
+                <img src={project.image} alt={project.title} />
+              </div>
+              <div className="project__caption">
+                <div><span>{project.type}</span><h3>{project.title}</h3></div>
+                <span>0{index + 1} / 03</span>
+              </div>
+            </article>
+          ))}
         </section>
 
-        <section className="clients section-screen page-pad">
-          <div className="section-heading clients__heading" data-reveal>
-            <span>04 / Who we work with</span>
-            <h2>For those who notice the details.</h2>
+        <section className="process shell" id="process">
+          <div className="process__intro" data-reveal>
+            <div className="section-label"><span>04</span><span>From idea to object</span></div>
+            <h2>Creative on one side.<br /><em>Technical on the other.</em></h2>
+            <p>One continuous process connects the two.</p>
           </div>
-          <div className="clients__grid">
-            {[
-              ['Upscale retailers', images.retail],
-              ['Boutique designers', images.edition],
-              ['Five-star brands', images.pendry],
-            ].map(([title, image], index) => (
-              <article className="client-card" key={title}>
-                <img src={image} alt="" />
-                <div className="client-card__shade" />
-                <span>0{index + 1}</span>
-                <h3>{title}</h3>
-                <Arrow />
-              </article>
-            ))}
+
+          <div className="process__body">
+            <div className="process__sticky">
+              <div className="process__image" data-image-shift>
+                <img ref={processImageRef} data-index="0" src={process[0].image} alt="INLIGHT process" />
+              </div>
+            </div>
+            <div className="process__steps">
+              {process.map((step) => (
+                <article className="process-step" key={step.number}>
+                  <span>{step.number}</span>
+                  <h3>{step.title}</h3>
+                  <p>{step.copy}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className="process page-pad" id="process">
-          <div className="process__sticky">
-            <div className="process__sticky-copy">
-              <span className="kicker">05 / From idea to object</span>
-              <h2>One continuous process.</h2>
-              <p>Creative intent stays connected to technical reality from the first sketch to the finished space.</p>
-            </div>
-            <div className="process__visual image-reveal">
-              <img ref={processImageRef} data-index="0" src={process[0].image} alt="INLIGHT process detail" />
-            </div>
+        <section className="standard screen">
+          <div className="standard__image" data-image-shift>
+            <img src={images.enclave} alt="Finished lighting within an interior" />
+            <div className="standard__shade" />
           </div>
-          <div className="process__steps">
-            {process.map((step) => (
-              <article className="process__step" key={step.number}>
-                <span>{step.number}</span>
-                <h3>{step.title}</h3>
-                <p>{step.copy}</p>
-              </article>
-            ))}
+          <div className="standard__copy shell">
+            <div className="section-label light" data-reveal><span>05</span><span>Our standard</span></div>
+            <div className="standard__statement" data-reveal>
+              <p>Our job is not to make something that simply photographs well.</p>
+              <h2>It has to be beautiful.<br />It also has to <em>work.</em></h2>
+            </div>
           </div>
         </section>
 
-        <section className="principle section-screen">
-          <div className="principle__media image-reveal">
-            <img src={images.enclave} alt="Refined interior lighting detail" />
+        <section className="contact screen shell">
+          <div className="section-label" data-reveal><span>06</span><span>Start a conversation</span></div>
+          <div className="contact__center" data-reveal>
+            <p>Have something particular in mind?</p>
+            <a href="mailto:info@inlightii.com">Let's talk <Arrow /></a>
           </div>
-          <div className="principle__overlay page-pad">
-            <span className="kicker" data-reveal>06 / Our standard</span>
-            <h2 data-reveal>Quality isn't a feature.<br /><em>It's the standard.</em></h2>
-          </div>
-        </section>
-
-        <section className="contact section-screen page-pad">
-          <div className="contact__top">
-            <span className="kicker" data-reveal>07 / Start a project</span>
-            <p data-reveal>Designers, retailers and global brands come to INLIGHT when the solution needs to be beautiful, reliable and buildable.</p>
-          </div>
-          <a className="contact__link" href="mailto:info@inlightii.com" data-reveal>
-            <span>Have something extraordinary in mind?</span>
-            <Arrow />
-          </a>
           <footer>
-            <div className="brand brand--footer"><span>INLIGHT</span><small>International</small></div>
+            <div className="brand brand--dark"><strong>INLIGHT</strong><span>International</span></div>
             <div><a href="mailto:info@inlightii.com">info@inlightii.com</a><span>© {new Date().getFullYear()} INLIGHT International</span></div>
           </footer>
         </section>
