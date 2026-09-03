@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Lenis from 'lenis'
@@ -44,6 +44,7 @@ function Arrow() {
 function App() {
   const root = useRef<HTMLDivElement>(null)
   const processImageRef = useRef<HTMLImageElement>(null)
+  const differenceFloatRef = useRef<HTMLDivElement>(null)
   const [activeDifference, setActiveDifference] = useState(0)
 
   useEffect(() => {
@@ -134,6 +135,71 @@ function App() {
     ScrollTrigger.refresh()
   }, { scope: root })
 
+  const hasFinePointer = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches
+
+  const moveIntroLens = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!hasFinePointer()) return
+    const stage = event.currentTarget
+    const rect = stage.getBoundingClientRect()
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
+
+    gsap.to(stage, {
+      '--lens-x': `${x}px`,
+      '--lens-y': `${y}px`,
+      duration: 0.34,
+      ease: 'power3.out',
+      overwrite: 'auto',
+    })
+  }
+
+  const enterIntroLens = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!hasFinePointer()) return
+    event.currentTarget.classList.add('is-active')
+  }
+
+  const leaveIntroLens = (event: ReactPointerEvent<HTMLDivElement>) => {
+    event.currentTarget.classList.remove('is-active')
+  }
+
+  const moveDifferencePreview = (event: ReactPointerEvent<HTMLElement>) => {
+    if (!hasFinePointer() || !differenceFloatRef.current) return
+    const rect = event.currentTarget.getBoundingClientRect()
+    const x = event.clientX - rect.left
+    const y = event.clientY - rect.top
+
+    gsap.to(differenceFloatRef.current, {
+      x: x + 34,
+      y: y - 118,
+      duration: 0.55,
+      ease: 'power3.out',
+      overwrite: 'auto',
+    })
+  }
+
+  const showDifferencePreview = (index: number) => {
+    setActiveDifference(index)
+    if (!hasFinePointer() || !differenceFloatRef.current) return
+    gsap.to(differenceFloatRef.current, {
+      opacity: 1,
+      scale: 1,
+      duration: 0.32,
+      ease: 'power2.out',
+      overwrite: 'auto',
+    })
+  }
+
+  const hideDifferencePreview = () => {
+    if (!differenceFloatRef.current) return
+    gsap.to(differenceFloatRef.current, {
+      opacity: 0,
+      scale: 0.96,
+      duration: 0.26,
+      ease: 'power2.out',
+      overwrite: 'auto',
+    })
+  }
+
   return (
     <div className="site" ref={root}>
       <header className="nav">
@@ -166,25 +232,55 @@ function App() {
 
         <section className="intro screen shell">
           <div className="section-label" data-reveal><span>01</span><span>About INLIGHT</span></div>
-          <div className="intro__content">
-            <h2 data-reveal>We are part design studio, part engineering partner, part manufacturer.</h2>
-            <div className="intro__aside" data-reveal>
-              <p>That mix is the point.</p>
-              <p>It lets us protect an idea from the first conversation through the realities of production and the final space.</p>
+          <div className="intro__experience">
+            <div className="intro__copy">
+              <h2 data-reveal>We are part design studio, part engineering partner, part manufacturer.</h2>
+              <div className="intro__aside" data-reveal>
+                <p>That mix is the point.</p>
+                <p>It lets us protect an idea from the first conversation through the realities of production and the final space.</p>
+              </div>
+            </div>
+
+            <div
+              className="intro__lens-stage"
+              data-reveal
+              onPointerMove={moveIntroLens}
+              onPointerEnter={enterIntroLens}
+              onPointerLeave={leaveIntroLens}
+            >
+              <img className="intro__lens-base" src={images.edition} alt="Finished INLIGHT hospitality interior" />
+              <div className="intro__lens-overlay" aria-hidden="true">
+                <img src={images.detail} alt="" />
+              </div>
+              <div className="intro__lens-ring" aria-hidden="true">
+                <span>Under the surface</span>
+              </div>
+              <div className="intro__lens-hint" aria-hidden="true">Move to reveal <span>↗</span></div>
+              <div className="intro__lens-caption"><span>Finished space</span><span>Design · Engineering · Making</span></div>
             </div>
           </div>
         </section>
 
-        <section className="difference screen shell" id="difference">
+        <section
+          className="difference screen shell"
+          id="difference"
+          onPointerMove={moveDifferencePreview}
+          onPointerLeave={hideDifferencePreview}
+        >
           <div className="section-label" data-reveal><span>02</span><span>How we are different</span></div>
+          <div className="difference__head" data-reveal>
+            <p>Four things we refuse to separate.</p>
+            <span>Move across the principles</span>
+          </div>
           <div className="difference__layout">
             <div className="difference__list" data-reveal>
               {differences.map((item, index) => (
                 <button
                   className={`difference-item ${activeDifference === index ? 'is-active' : ''}`}
                   key={item.number}
-                  onMouseEnter={() => setActiveDifference(index)}
+                  onPointerEnter={() => showDifferencePreview(index)}
                   onFocus={() => setActiveDifference(index)}
+                  onClick={() => setActiveDifference(index)}
                   type="button"
                 >
                   <span className="difference-item__number">{item.number}</span>
@@ -196,10 +292,16 @@ function App() {
                 </button>
               ))}
             </div>
-            <div className="difference__visual" data-reveal>
-              <img src={differences[activeDifference].image} alt="INLIGHT capability detail" />
-              <span>{differences[activeDifference].title}</span>
-            </div>
+          </div>
+
+          <div className="difference__float" ref={differenceFloatRef} aria-hidden="true">
+            <img key={differences[activeDifference].image} src={differences[activeDifference].image} alt="" />
+            <span>{differences[activeDifference].number} / {differences[activeDifference].title}</span>
+          </div>
+
+          <div className="difference__mobile-visual">
+            <img src={differences[activeDifference].image} alt="INLIGHT capability detail" />
+            <span>{differences[activeDifference].title}</span>
           </div>
         </section>
 
