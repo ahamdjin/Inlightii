@@ -6,35 +6,38 @@ import { useGSAP } from '@gsap/react'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
+const homeImage = (name: string) => `/images/home/${name}`
+
 const images = {
-  hero: 'https://static.wixstatic.com/media/f966c5_f5c26bacf0344b40bb73374524a6ec4c~mv2.jpg',
-  detail: 'https://static.wixstatic.com/media/f966c5_67fc1a9ac30e49579b635922484197ab~mv2.jpg',
-  retail: 'https://static.wixstatic.com/media/f966c5_c9051b9cb24040a292319d97979a8ad9~mv2.jpg',
-  object: 'https://static.wixstatic.com/media/f966c5_d816dcd11ce24139ab6cc38c360f7203~mv2.jpg',
-  edition: 'https://static.wixstatic.com/media/f966c5_8ee547c47d0544a5b9a3595901150709~mv2.jpg',
-  pendry: 'https://static.wixstatic.com/media/f966c5_cd67b5ccef1440f69bbe3fe498b72e9f~mv2.png',
-  enclave: 'https://static.wixstatic.com/media/f966c5_ead36c42e6c140d39e34967de2fefe4e~mv2.jpg',
+  hero: homeImage('ChatGPT%20Image%20Sept%203%202026.webp'),
+  aboutFinished: homeImage('ChatGPT%20Image%20Sept%203%202026%20(1)%20(1).webp'),
+  quality: homeImage('ChatGPT%20Image%20Sept%203%202026%20(1).webp'),
+  retail: homeImage('ChatGPT%20Image%20Sept%203%202026%20(2).webp'),
+  expertise: homeImage('ChatGPT%20Image%20Sept%203%202026%20(2)%20(1).webp'),
+  standard: homeImage('ChatGPT%20Image%20Sept%203%202026%20(3)%20(1).webp'),
+  aboutTechnical: homeImage('ChatGPT%20Image%20Sept%203%202026%20(3).webp'),
+  supply: homeImage('ChatGPT%20Image%20Sept%203%202026%20(5).webp'),
 }
 
 const differences = [
-  { number: '01', title: 'Quality over quantity', note: 'A tighter standard for materials, finish and final execution.', image: images.detail },
-  { number: '02', title: 'Global supply chain', note: 'A manufacturing network built around capability, consistency and scale.', image: images.retail },
-  { number: '03', title: 'Industry expertise', note: 'Design and production knowledge shaped by complex hospitality and retail work.', image: images.edition },
-  { number: '04', title: 'End-to-end manufacturing', note: 'From development and prototyping through production and quality control.', image: images.object },
+  { number: '01', title: 'Quality over quantity', note: 'A tighter standard for materials, finish and final execution.', image: images.quality },
+  { number: '02', title: 'Global supply chain', note: 'A manufacturing network built around capability, consistency and scale.', image: images.supply },
+  { number: '03', title: 'Industry expertise', note: 'Design and production knowledge shaped by complex hospitality and retail work.', image: images.expertise },
+  { number: '04', title: 'End-to-end manufacturing', note: 'From development and prototyping through production and quality control.', image: images.aboutTechnical },
 ]
 
 const projects = [
-  { title: 'The New York EDITION', type: 'Hospitality', image: images.edition },
-  { title: 'Pendry', type: 'Hospitality', image: images.pendry },
-  { title: 'Custom objects & details', type: 'Lighting + Décor', image: images.object },
+  { title: 'Hospitality environments', type: 'Selected work', image: images.expertise },
+  { title: 'Retail & display', type: 'Selected work', image: images.retail },
+  { title: 'Lighting & décor', type: 'Selected work', image: images.standard },
 ]
 
 const process = [
-  { number: '01', title: 'Design & development', copy: 'Ideas are shaped around proportion, material, performance and the atmosphere the finished piece should create.', image: images.object },
-  { number: '02', title: 'Engineering', copy: 'Design intent becomes buildable through technical development, detailing and production-minded problem solving.', image: images.detail },
-  { number: '03', title: 'Prototyping', copy: 'Scale, finish and construction are tested in the real world before a concept moves into repeatable production.', image: images.retail },
-  { number: '04', title: 'Manufacturing', copy: 'A global supply network brings together the right processes, materials and specialists for each piece.', image: images.pendry },
-  { number: '05', title: 'Quality assurance', copy: 'The final standard is checked in the details — finish, consistency, performance and readiness for the space.', image: images.enclave },
+  { number: '01', title: 'Design & development', copy: 'Ideas are shaped around proportion, material, performance and the atmosphere the finished piece should create.', image: images.aboutFinished },
+  { number: '02', title: 'Engineering', copy: 'Design intent becomes buildable through technical development, detailing and production-minded problem solving.', image: images.aboutTechnical },
+  { number: '03', title: 'Prototyping', copy: 'Scale, finish and construction are tested in the real world before a concept moves into repeatable production.', image: images.quality },
+  { number: '04', title: 'Manufacturing', copy: 'A global supply network brings together the right processes, materials and specialists for each piece.', image: images.supply },
+  { number: '05', title: 'Quality assurance', copy: 'The final standard is checked in the details — finish, consistency, performance and readiness for the space.', image: images.quality },
 ]
 
 function Arrow() {
@@ -220,11 +223,38 @@ function App() {
             <img src={images.hero} alt="Custom lighting in a refined hospitality interior" />
             <div className="hero__shade" />
           </div>
-          <div className="hero__copy shell">
-            <p className="eyebrow light" data-hero>Design · Engineering · Manufacturing</p>
-            <h1 data-hero>Crafted to a <em>higher standard.</em></h1>
-            <div className="hero__footer" data-hero>
-              <p>Quality lighting and décor for hospitality, retail and design-led spaces.</p>
+          <div
+            className="hero__copy shell"
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              paddingTop: '76px',
+              paddingBottom: '42px',
+            }}
+          >
+            <p className="eyebrow light" data-hero style={{ marginBottom: '18px' }}>Design · Engineering · Manufacturing</p>
+            <h1
+              data-hero
+              style={{
+                margin: '0 0 18px',
+                maxWidth: '680px',
+                fontSize: 'clamp(34px, 3.6vw, 52px)',
+                lineHeight: 1.05,
+                letterSpacing: '-0.03em',
+                fontWeight: 300,
+              }}
+            >
+              Crafted to a higher standard.
+            </h1>
+            <div
+              className="hero__footer"
+              data-hero
+              style={{ flexDirection: 'column', alignItems: 'center', gap: '16px' }}
+            >
+              <p style={{ textAlign: 'center', width: 'min(390px, 100%)', fontSize: '12px' }}>
+                Quality lighting and décor for hospitality, retail and design-led spaces.
+              </p>
               <span>Scroll <span className="down">↓</span></span>
             </div>
           </div>
@@ -248,9 +278,9 @@ function App() {
               onPointerEnter={enterIntroLens}
               onPointerLeave={leaveIntroLens}
             >
-              <img className="intro__lens-base" src={images.edition} alt="Finished INLIGHT hospitality interior" />
+              <img className="intro__lens-base" src={images.aboutFinished} alt="Finished INLIGHT lighting environment" />
               <div className="intro__lens-overlay" aria-hidden="true">
-                <img src={images.detail} alt="" />
+                <img src={images.aboutTechnical} alt="" />
               </div>
               <div className="intro__lens-ring" aria-hidden="true">
                 <span>Under the surface</span>
@@ -354,7 +384,7 @@ function App() {
 
         <section className="standard screen">
           <div className="standard__image" data-image-shift>
-            <img src={images.enclave} alt="Finished lighting within an interior" />
+            <img src={images.standard} alt="Finished lighting within an interior" />
             <div className="standard__shade" />
           </div>
           <div className="standard__copy shell">
