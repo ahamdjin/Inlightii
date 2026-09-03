@@ -3,6 +3,7 @@
     { "source": "/blog", "destination": "/" },
     { "source": "/contact", "destination": "/" },
     { "source": "/zh", "destination": "/" },
-    { "source": "/zh/", "destination": "/" }
+    { "source": "/zh/blog", "destination": "/" },
+    { "source": "/zh/contact", "destination": "/" }
   ]
 }
