@@ -8,6 +8,7 @@ import './pages.css'
 import './hero-fix.css'
 import './difference-enhancement.css'
 import './difference-expand.css'
+import './mobile.css'
 
 function ChineseHomePage() {
   useEffect(() => {
