@@ -1,0 +1,13 @@
+.hero {
+  height: 100svh;
+}
+
+.hero__image {
+  inset: 0 !important;
+}
+
+.hero__image img {
+  object-position: center center !important;
+  transform: none !important;
+  will-change: auto !important;
+}
