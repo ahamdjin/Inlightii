@@ -9,8 +9,8 @@ function MobileMenu() {
   const base = isZh ? '/zh' : ''
 
   const labels = isZh
-    ? { company: '关于我们', gallery: '项目', capabilities: '能力', journal: '日志', contact: '联系', language: 'EN', menu: '菜单', close: '关闭', visualizer: '灯光可视化', visualizerNote: '上传空间图片 · 匹配灯具' }
-    : { company: 'Company', gallery: 'Gallery', capabilities: 'Capabilities', journal: 'Journal', contact: 'Contact', language: '中文', menu: 'Menu', close: 'Close', visualizer: 'Try the Lighting Visualizer', visualizerNote: 'Upload your space · discover a light' }
+    ? { company: '关于我们', gallery: '项目', capabilities: '能力', journal: '日志', contact: '联系', language: 'EN', menu: '菜单', close: '关闭', visualizer: '点亮你的空间', visualizerNote: '上传空间图片 · 匹配 INLIGHT 灯具' }
+    : { company: 'Company', gallery: 'Gallery', capabilities: 'Capabilities', journal: 'Journal', contact: 'Contact', language: '中文', menu: 'Menu', close: 'Close', visualizer: 'Light Your Space', visualizerNote: 'Upload your room · discover an INLIGHT light' }
 
   const languageHref = isZh
     ? path === '/zh/blog' ? '/blog' : path === '/zh/contact' ? '/contact' : '/'
