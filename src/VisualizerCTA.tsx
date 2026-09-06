@@ -10,10 +10,11 @@ function VisualizerCTA() {
       href={VISUALIZER_URL}
       target="_blank"
       rel="noreferrer"
-      aria-label={isZh ? '打开灯光可视化工具' : 'Open the INLIGHT lighting visualizer'}
+      aria-label={isZh ? '上传空间图片，为你的空间匹配 INLIGHT 灯具' : 'Upload your space and discover an INLIGHT light'}
     >
-      <span className="visualizer-cta__desktop">{isZh ? '灯光可视化' : 'Try the Visualizer'}</span>
-      <span className="visualizer-cta__mobile">{isZh ? '可视化' : 'Visualizer'}</span>
+      <span className="visualizer-cta__light" aria-hidden="true"><i /></span>
+      <span className="visualizer-cta__desktop">{isZh ? '点亮你的空间' : 'Light Your Space'}</span>
+      <span className="visualizer-cta__mobile">{isZh ? '点亮空间' : 'Light Your Space'}</span>
       <span className="visualizer-cta__arrow" aria-hidden="true">↗</span>
     </a>
   )
