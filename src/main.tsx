@@ -4,12 +4,14 @@ import App from './App'
 import BlogPage from './BlogPage'
 import ContactPage from './ContactPage'
 import MobileMenu from './MobileMenu'
+import VisualizerCTA from './VisualizerCTA'
 import './styles.css'
 import './pages.css'
 import './hero-fix.css'
 import './difference-enhancement.css'
 import './difference-expand.css'
 import './mobile.css'
+import './visualizer-cta.css'
 
 function ChineseHomePage() {
   useEffect(() => {
@@ -36,6 +38,7 @@ function Router() {
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Router />
+    <VisualizerCTA />
     <MobileMenu />
   </StrictMode>,
 )
