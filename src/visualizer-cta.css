@@ -110,30 +110,67 @@
 @media (max-width: 900px) {
   .visualizer-cta {
     z-index: 110;
-    top: 15px;
-    right: calc(var(--mobile-pad, 22px) + 52px);
-    min-height: 40px;
-    padding: 0 11px 0 10px;
-    gap: 7px;
-    border-color: rgba(23,23,21,.12);
-    background: rgba(246,242,234,.95);
-    box-shadow: 0 8px 24px rgba(23,23,21,.08);
-    font-size: 8.8px;
+    top: 16px;
+    right: calc(var(--mobile-pad, 22px) + 50px);
+    width: 38px;
+    height: 38px;
+    min-height: 38px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+    gap: 0;
+    border-color: rgba(177,132,62,.2);
+    border-radius: 50%;
+    background: rgba(250,246,237,.94);
+    box-shadow: 0 7px 22px rgba(23,23,21,.08), 0 0 18px rgba(221,172,85,.10);
+    overflow: visible;
   }
 
   .visualizer-cta::before {
-    width: 36px;
-    height: 36px;
+    left: 50%;
+    top: 50%;
+    width: 46px;
+    height: 46px;
+    transform: translate(-50%,-50%) scale(.9);
+    background: radial-gradient(circle, rgba(250,211,135,.34), rgba(220,169,77,.12) 44%, transparent 72%);
+    filter: blur(6px);
+    opacity: .72;
+  }
+
+  .visualizer-cta:hover::before,
+  .visualizer-cta:active::before {
+    opacity: 1;
+    transform: translate(-50%,-50%) scale(1.08);
+  }
+
+  .visualizer-cta__desktop,
+  .visualizer-cta__mobile,
+  .visualizer-cta__arrow {
+    display: none !important;
   }
 
   .visualizer-cta__light {
-    width: 13px;
-    height: 13px;
-    flex-basis: 13px;
+    width: 20px;
+    height: 20px;
+    flex: 0 0 20px;
   }
 
-  .visualizer-cta__desktop { display: none; }
-  .visualizer-cta__mobile { display: inline; }
+  .visualizer-cta__light::before {
+    inset: -8px;
+    background: radial-gradient(circle, rgba(245,199,111,.42), transparent 68%);
+    opacity: .8;
+  }
+
+  .visualizer-cta__light i {
+    width: 9px;
+    height: 9px;
+    background: #e2b25e;
+    box-shadow: 0 0 9px rgba(226,178,94,.8), 0 0 16px rgba(226,178,94,.26), inset 0 0 0 1px rgba(255,255,255,.58);
+  }
+
+  .visualizer-cta:active {
+    transform: scale(.94);
+  }
 
   .mobile-menu__panel {
     grid-template-rows: auto auto 1fr auto;
@@ -215,11 +252,8 @@
 @media (max-width: 390px) {
   .visualizer-cta {
     right: 64px;
-    padding-left: 9px;
-    padding-right: 9px;
-    gap: 6px;
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
   }
-
-  .visualizer-cta__arrow { display: none; }
-  .visualizer-cta__light { width: 11px; height: 11px; flex-basis: 11px; }
 }
