@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react'
 
+const VISUALIZER_URL = 'https://inlight-lighting-visualizer.replit.app'
+
 function MobileMenu() {
   const [open, setOpen] = useState(false)
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
@@ -7,8 +9,8 @@ function MobileMenu() {
   const base = isZh ? '/zh' : ''
 
   const labels = isZh
-    ? { company: '关于我们', gallery: '项目', capabilities: '能力', journal: '日志', contact: '联系', language: 'EN', menu: '菜单', close: '关闭' }
-    : { company: 'Company', gallery: 'Gallery', capabilities: 'Capabilities', journal: 'Journal', contact: 'Contact', language: '中文', menu: 'Menu', close: 'Close' }
+    ? { company: '关于我们', gallery: '项目', capabilities: '能力', journal: '日志', contact: '联系', language: 'EN', menu: '菜单', close: '关闭', visualizer: '灯光可视化', visualizerNote: '上传空间图片 · 匹配灯具' }
+    : { company: 'Company', gallery: 'Gallery', capabilities: 'Capabilities', journal: 'Journal', contact: 'Contact', language: '中文', menu: 'Menu', close: 'Close', visualizer: 'Try the Lighting Visualizer', visualizerNote: 'Upload your space · discover a light' }
 
   const languageHref = isZh
     ? path === '/zh/blog' ? '/blog' : path === '/zh/contact' ? '/contact' : '/'
@@ -41,6 +43,20 @@ function MobileMenu() {
           <span>INLIGHT International</span>
           <span>{isZh ? '设计 · 工程 · 制造' : 'Design · Engineering · Manufacturing'}</span>
         </div>
+
+        <a
+          className="mobile-menu__visualizer"
+          href={VISUALIZER_URL}
+          target="_blank"
+          rel="noreferrer"
+          onClick={close}
+        >
+          <span>
+            <small>{labels.visualizerNote}</small>
+            <strong>{labels.visualizer}</strong>
+          </span>
+          <span aria-hidden="true">↗</span>
+        </a>
 
         <nav className="mobile-menu__links" aria-label={labels.menu}>
           <a href={`${base}/#difference`} onClick={close}><span>01</span>{labels.company}</a>
