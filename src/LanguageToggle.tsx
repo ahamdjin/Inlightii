@@ -11,7 +11,7 @@ function getLanguageLinks(pathname: string) {
     return { en: '/contact', zh: '/zh/contact' }
   }
 
-  return { en: '/', zh: '/zh/' }
+  return { en: '/', zh: '/zh' }
 }
 
 function LanguageToggle() {
