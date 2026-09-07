@@ -49,14 +49,8 @@ function LanguageToggle() {
     }
 
     document.querySelectorAll<HTMLElement>('.nav__links, .page-nav nav').forEach((nav) => {
-      const oldLanguageLink = Array.from(nav.children).find((child) => {
-        if (!(child instanceof HTMLAnchorElement)) return false
-        return child.getAttribute('href') === '/zh/' || child.getAttribute('href') === '/' || child.getAttribute('href') === '/zh/blog' || child.getAttribute('href') === '/blog' || child.getAttribute('href') === '/zh/contact' || child.getAttribute('href') === '/contact'
-      }) as HTMLAnchorElement | undefined
-
-      const anchors = Array.from(nav.querySelectorAll(':scope > a'))
-      const fallback = anchors[anchors.length - 1]
-      const languageLink = oldLanguageLink && oldLanguageLink === fallback ? oldLanguageLink : fallback
+      const anchors = Array.from(nav.querySelectorAll<HTMLAnchorElement>(':scope > a'))
+      const languageLink = anchors[anchors.length - 1]
       if (!languageLink || nav.querySelector(':scope > .language-toggle')) return
 
       languageLink.style.display = 'none'
