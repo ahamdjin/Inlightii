@@ -39,12 +39,39 @@
   .visualizer-cta {
     --desktop-cta-h: clamp(42px, 2.35vw, 48px);
     top: calc((var(--desktop-header-h) - var(--desktop-cta-h)) / 2);
-    right: clamp(150px, 9.2vw, 214px);
     min-height: var(--desktop-cta-h);
     padding-left: clamp(13px, .8vw, 17px);
     padding-right: clamp(15px, .9vw, 19px);
     gap: clamp(9px, .55vw, 12px);
     font-size: clamp(10px, .64vw, 13px);
+  }
+
+  .visualizer-cta--home {
+    right: clamp(150px, 9.2vw, 214px);
+  }
+
+  /* Inner pages place the CTA at the same outer gutter as the header itself. */
+  .visualizer-cta--inner {
+    right: clamp(32px, 4.2vw, 88px);
+  }
+
+  /* Reserve room for the CTA so Blog/Contact nav never collides with it. */
+  .page-nav nav {
+    margin-right: clamp(176px, 11.2vw, 238px);
+  }
+
+  .visualizer-cta--light-page {
+    background: rgba(250,247,240,.96);
+    border-color: rgba(23,23,21,.14);
+    color: #171715;
+    box-shadow: 0 10px 28px rgba(23,23,21,.07), 0 0 18px rgba(220,172,86,.08);
+  }
+
+  .visualizer-cta--dark-page {
+    background: rgba(250,247,240,.95);
+    border-color: rgba(255,255,255,.12);
+    color: #171715;
+    box-shadow: 0 10px 30px rgba(0,0,0,.16), 0 0 20px rgba(220,172,86,.10);
   }
 
   .visualizer-cta__light {
