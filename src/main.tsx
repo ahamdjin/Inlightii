@@ -12,6 +12,7 @@ import './difference-enhancement.css'
 import './difference-expand.css'
 import './mobile.css'
 import './visualizer-cta.css'
+import './header-responsive.css'
 
 function ChineseHomePage() {
   useEffect(() => {
