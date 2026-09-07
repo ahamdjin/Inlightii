@@ -3,10 +3,13 @@ const VISUALIZER_URL = 'https://inlight-lighting-visualizer.replit.app'
 function VisualizerCTA() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
   const isZh = path === '/zh' || path.startsWith('/zh/')
+  const isBlog = path === '/blog' || path === '/zh/blog'
+  const isContact = path === '/contact' || path === '/zh/contact'
+  const isInnerPage = isBlog || isContact
 
   return (
     <a
-      className="visualizer-cta"
+      className={`visualizer-cta ${isInnerPage ? 'visualizer-cta--inner' : 'visualizer-cta--home'} ${isBlog ? 'visualizer-cta--light-page' : 'visualizer-cta--dark-page'}`}
       href={VISUALIZER_URL}
       target="_blank"
       rel="noreferrer"
