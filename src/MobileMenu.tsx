@@ -9,12 +9,12 @@ function MobileMenu() {
   const base = isZh ? '/zh' : ''
 
   const labels = isZh
-    ? { company: '关于我们', gallery: '项目', capabilities: '能力', journal: '日志', contact: '联系', language: 'EN', menu: '菜单', close: '关闭', visualizer: '点亮你的空间', visualizerNote: '上传空间图片 · 匹配 INLIGHT 灯具' }
-    : { company: 'Company', gallery: 'Gallery', capabilities: 'Capabilities', journal: 'Journal', contact: 'Contact', language: '中文', menu: 'Menu', close: 'Close', visualizer: 'Light Your Space', visualizerNote: 'Upload your room · discover an INLIGHT light' }
+    ? { company: '关于我们', gallery: '项目', capabilities: '能力', journal: '日志', contact: '联系', language: 'EN', menu: '菜单', close: '关闭', visualizer: 'AI 设计', visualizerNote: '上传空间图片 · 匹配 INLIGHT 灯具' }
+    : { company: 'Company', gallery: 'Gallery', capabilities: 'Capabilities', journal: 'Journal', contact: 'Contact', language: '中文', menu: 'Menu', close: 'Close', visualizer: 'AI Design', visualizerNote: 'Upload your room · discover an INLIGHT light' }
 
   const languageHref = isZh
     ? path === '/zh/blog' ? '/blog' : path === '/zh/contact' ? '/contact' : '/'
-    : path === '/blog' ? '/zh/blog' : path === '/contact' ? '/zh/contact' : '/zh/'
+    : path === '/blog' ? '/zh/blog' : path === '/contact' ? '/zh/contact' : '/zh'
 
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
@@ -59,9 +59,9 @@ function MobileMenu() {
         </a>
 
         <nav className="mobile-menu__links" aria-label={labels.menu}>
-          <a href={`${base}/#difference`} onClick={close}><span>01</span>{labels.company}</a>
-          <a href={`${base}/#work`} onClick={close}><span>02</span>{labels.gallery}</a>
-          <a href={`${base}/#process`} onClick={close}><span>03</span>{labels.capabilities}</a>
+          <a href={isZh ? '/zh#difference' : '/#difference'} onClick={close}><span>01</span>{labels.company}</a>
+          <a href={isZh ? '/zh#work' : '/#work'} onClick={close}><span>02</span>{labels.gallery}</a>
+          <a href={isZh ? '/zh#process' : '/#process'} onClick={close}><span>03</span>{labels.capabilities}</a>
           <a href={`${base}/blog`} onClick={close}><span>04</span>{labels.journal}</a>
           <a href={`${base}/contact`} onClick={close}><span>05</span>{labels.contact}</a>
         </nav>
