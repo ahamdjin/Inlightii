@@ -21,6 +21,16 @@ function LanguageToggle() {
     const links = getLanguageLinks(path)
     const cleanups: Array<() => void> = []
 
+    // Keep the Chinese home header entirely inside the Chinese route family.
+    if (path === '/zh') {
+      const homeNav = document.querySelector<HTMLElement>('.nav__links')
+      const homeLinks = homeNav ? Array.from(homeNav.querySelectorAll<HTMLAnchorElement>(':scope > a')) : []
+      const journal = homeLinks[3]
+      const contact = document.querySelector<HTMLAnchorElement>('.nav__contact')
+      if (journal) journal.href = '/zh/blog'
+      if (contact) contact.href = '/zh/contact'
+    }
+
     const buildToggle = (className: string) => {
       const toggle = document.createElement('span')
       toggle.className = className
