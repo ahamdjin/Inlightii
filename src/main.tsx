@@ -5,6 +5,7 @@ import BlogPage from './BlogPage'
 import ContactPage from './ContactPage'
 import MobileMenu from './MobileMenu'
 import VisualizerCTA from './VisualizerCTA'
+import LanguageToggle from './LanguageToggle'
 import './styles.css'
 import './pages.css'
 import './hero-fix.css'
@@ -41,5 +42,6 @@ createRoot(document.getElementById('root')!).render(
     <Router />
     <VisualizerCTA />
     <MobileMenu />
+    <LanguageToggle />
   </StrictMode>,
 )
