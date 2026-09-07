@@ -1,4 +1,4 @@
-import { StrictMode, useEffect } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App'
 import BlogPage from './BlogPage'
@@ -15,17 +15,6 @@ import './mobile.css'
 import './visualizer-cta.css'
 import './header-responsive.css'
 
-function ChineseHomePage() {
-  useEffect(() => {
-    const journal = document.querySelector<HTMLAnchorElement>('.nav__links a[href="/blog"]')
-    const contact = document.querySelector<HTMLAnchorElement>('.nav__contact')
-    if (journal) journal.href = '/zh/blog'
-    if (contact) contact.href = '/zh/contact'
-  }, [])
-
-  return <App language="zh" />
-}
-
 function Router() {
   const path = window.location.pathname.replace(/\/+$/, '') || '/'
 
@@ -33,7 +22,7 @@ function Router() {
   if (path === '/contact') return <ContactPage />
   if (path === '/zh/blog') return <BlogPage language="zh" />
   if (path === '/zh/contact') return <ContactPage language="zh" />
-  if (path === '/zh') return <ChineseHomePage />
+  if (path === '/zh') return <App language="zh" />
   return <App />
 }
 
